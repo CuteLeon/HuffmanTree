@@ -8,8 +8,9 @@
         Dim Index As Integer, ListSubcript As Byte
         Dim FileBytes() As Byte
 
-        FileBytes = IO.File.ReadAllBytes(Application.StartupPath & "\HuffmanTreeTestFile.png")
-        'FileBytes = System.Text.Encoding.UTF8.GetBytes("测试数据！！！ABC")
+        'FileBytes = IO.File.ReadAllBytes(Application.StartupPath & "\HuffmanTreeTestFile.png")
+        'FileBytes = System.Text.Encoding.ASCII.GetBytes("Huffman Code Test String")
+        FileBytes = System.Text.Encoding.UTF8.GetBytes("哈弗曼编码测试字符串")
 
         Debug.Print("读取文件结束！文件大小： " & FileBytes.Count & " 字节")
 
@@ -25,13 +26,13 @@
         Debug.Print("构建哈希表完毕！输出哈希表：")
 
         For Index = 0 To 255
-            Debug.Print(Index.ToString("000") & " / " & GetBitArray(Index) & " ： " & ByteCounter(Index))
+            If ByteCounter(Index) Then Debug.Print(Index.ToString("000") & " / " & GetBitArray(Index) & " ： " & ByteCounter(Index))
         Next
         Debug.Print("哈希表输出完毕！")
 
         HuffmanNodeList = New List(Of HuffmanTreeNode) With {.Capacity = 256}
         For Index = 0 To 255
-            If ByteCounter(Index) > 0 Then
+            If ByteCounter(Index) Then
                 Dim NewHuffmanNode As HuffmanTreeNode = New HuffmanTreeNode(ByteCounter(Index), Index)
                 ListSubcript = GetInsertIndex(HuffmanNodeList, ByteCounter(Index))
                 HuffmanNodeList.Insert(ListSubcript, NewHuffmanNode)
@@ -126,7 +127,7 @@
     ''' </summary>
     Private Sub PrintHuffmanCode()
         For Index = 0 To 255
-            Debug.Print(Index & " : " & HuffmanCode(Index))
+            If ByteCounter(Index) Then Debug.Print(Index & " : " & HuffmanCode(Index))
         Next
         Debug.Print("输出哈夫曼编码完毕！")
     End Sub
