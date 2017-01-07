@@ -5,6 +5,8 @@
     Dim HuffmanNodeList As List(Of HuffmanTreeNode) = New List(Of HuffmanTreeNode)
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '.Net内置数据压缩类：IO.Compression.GZipStream
+
         Dim Index As Integer, ListSubcript As Byte
         Dim FileBytes() As Byte
 
