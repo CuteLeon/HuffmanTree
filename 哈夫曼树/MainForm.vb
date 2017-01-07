@@ -10,9 +10,9 @@
         Dim Index As Integer, ListSubcript As Byte
         Dim FileBytes() As Byte
 
-        'FileBytes = IO.File.ReadAllBytes(Application.StartupPath & "\HuffmanTreeTestFile.png")
+        FileBytes = IO.File.ReadAllBytes(Application.StartupPath & "\HuffmanTreeTestFile.png")
         'FileBytes = System.Text.Encoding.ASCII.GetBytes("Huffman Code Test String")
-        FileBytes = System.Text.Encoding.UTF8.GetBytes("哈弗曼编码测试字符串")
+        'FileBytes = System.Text.Encoding.UTF8.GetBytes("哈弗曼编码测试字符串")
 
         Debug.Print("读取文件结束！文件大小： " & FileBytes.Count & " 字节")
 
@@ -55,6 +55,17 @@
             HuffmanLength += HuffmanCode(FileByte).Length
         Next
         Debug.Print("压缩为原数据的：" & (HuffmanLength / (FileBytes.Length * 8)).ToString("###.##%"))
+        Dim BitArray As BitArray = New BitArray(HuffmanLength, False)
+        HuffmanLength = 0
+        For Each FileByte In FileBytes
+            For Each Bit In HuffmanCode(FileByte)
+                If Bit = "1" Then BitArray.Set(HuffmanLength, True)
+                HuffmanLength += 1
+            Next
+        Next
+        Dim NewFileBytes(HuffmanLength / 8 + 1) As Byte
+        BitArray.CopyTo(NewFileBytes, 0)
+        IO.File.WriteAllBytes("D:\NewFile.File", NewFileBytes)
 
         Erase ByteCounter
         HuffmanNodeList.Clear()
